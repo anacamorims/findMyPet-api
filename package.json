@@ -1,18 +1,22 @@
 {
-  "name": "miniprojeto",
+  "name": "api-findmypet",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node src/server.js",
+    "dev": "nodemon findMyPet-api/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.19.2",
-    "uuidv4": "^6.2.13"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongoose": "^8.6.2",
+    "nodemon": "^3.1.4",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0"
   }
 }
