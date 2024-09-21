@@ -1,28 +1,72 @@
 import mongoose from "mongoose";
 
-const schema = new mongoose.Schema({
-  name: String,
+// Definindo o esquema para o Pet
+const PetSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  specie: {
+    type: String,
+    required: true,
+  },
+  breed: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+  },
+  lastSeenLocation: {
+    type: String,
+    required: true,
+  },
+  dateLost: {
+    type: Date,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  ownerContact: {
+    type: Number,
+    required: true,
+  },
+  photoURL: {
+    type: String,
+    required: true,
+  },
 });
 
+// Conectando ao banco de dados e registrando o modelo
 const connectDB = async () => {
   console.log("Aguardando a conexão com o banco de dados");
 
   try {
-    const conn = mongoose.createConnection(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI, {
       serverSelectionTimeoutMS: 70000,
       socketTimeoutMS: 60000,
       connectTimeoutMS: 60000,
     });
+    console.log("MongoDB Atlas Conectado");
 
-    const User = conn.model('User', schema);
+    // Registrando o modelo
+    const Pet = mongoose.model("Pet", PetSchema);
 
-    const user = await User.findOne();
-    console.log(user); 
-
-    console.log("Conexão com MongoDB Atlas estabelecida");
+    return Pet; // Retorna o modelo para uso posterior
   } catch (error) {
-    console.log("Erro ao conectar ao MongoDB:", error);
+    console.error("Erro ao conectar ao MongoDB:", error);
   }
 };
 
-export default connectDB;
+export { connectDB, Pet };
