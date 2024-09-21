@@ -1,16 +1,34 @@
 import mongoose from "mongoose";
 
-const connectDB = () => {
-  console.log("wait connecting to the database");
+export const Mongo = {
+    async connect() {
+        console.log("wait connecting to the database");
 
-  mongoose
-    .connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 70000, 
-      socketTimeoutMS: 60000, 
-      connectTimeoutMS: 60000,
-    })
-    .then(() => console.log("MongoDB Atlas Connected"))
-    .catch((error) => console.log(error));
+        try {
+            await mongoose.connect(process.env.MONGODB_URI, {
+                serverSelectionTimeoutMS: 70000, 
+                socketTimeoutMS: 60000, 
+                connectTimeoutMS: 60000,
+            });
+
+            const db = mongoose.connection;
+            
+            db.on('error', (err) => {
+                console.error('MongoDB connection error:', err);
+            });
+
+            db.once('open', () => {
+                console.log('MongoDB Atlas Connected');
+            });
+
+            return { success: true };
+        } catch (error) {
+            console.error('Error during mongo connection:', error);
+            return { success: false, error };
+        }
+    }
 };
 
-export default connectDB;
+
+
+

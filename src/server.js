@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { petRouter } from "./routes/findmypet.routes.js";
-import connectDB from "./database/connection.db.js";
+import { Mongo } from "./database/connection.db.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,7 +20,18 @@ app.use(express.json());
 
 app.use(petRouter);
 
-app.listen(port, () => {
-  connectDB();
-  console.log(`Example app listening on port ${port}`);
-});
+
+
+
+async function startServer() {
+    const mongoConnectionResult = await Mongo.connect();
+
+    if (mongoConnectionResult.success) {
+        console.log('Database connection successful, starting server...');
+        app.listen(port, () => console.log(`Server running on port ${port}`))
+    } else {
+        console.error('Failed to connect to the database:', mongoConnectionResult.error);
+    }
+}
+
+startServer();
