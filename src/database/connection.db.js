@@ -5,8 +5,6 @@ const connectDB = () => {
 
   mongoose
     .connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 40000, 
     })
     .then(() => console.log("MongoDB Atlas Connected"))
